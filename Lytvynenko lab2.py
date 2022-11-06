@@ -29,3 +29,15 @@ for i in range(len(text)):
         coun[fS]+=1
         file.write(alphabetS[fB])
 file.close()
+
+
+#обраховуємо частоти символів алфавіту
+s = sum(coun)
+for i in range(32):
+    freq[i]=coun[i]/s
+
+#таблиця кількостей символів алфавіту
+print(pd.DataFrame(coun, index = alphabetS_list))
+
+#таблиця частот символів алфавіту
+print(pd.DataFrame(freq, index = alphabetS_list))
