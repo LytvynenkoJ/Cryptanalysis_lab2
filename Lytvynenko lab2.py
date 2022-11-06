@@ -85,3 +85,20 @@ for i in range(32):
             entropyBigram-=freqBigram[i][j]*math.log2(freqBigram[i][j])
 entropyBigram/=2
 print("entropy (l=2) :         "+str(entropyBigram))
+
+#індекс відповідності (l=1)
+index=0
+for i in range(32):
+    index+=coun[i]*(coun[i]-1)
+index/=len(text)*(len(text)-1)
+print("index (l=1) :         "+str(index))
+
+
+#індекс відповідності (l=2)
+indexBigram=0
+for i in range(32):
+    for j in range(32):
+        if countBigram[i][j]!=0:
+            indexBigram+=countBigram[i][j]*(countBigram[i][j]-1)
+indexBigram/=len(text)*(len(text)-1)
+print("index (l=2) :         "+str(indexBigram))
