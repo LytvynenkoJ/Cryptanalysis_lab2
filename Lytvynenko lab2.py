@@ -41,3 +41,32 @@ print(pd.DataFrame(coun, index = alphabetS_list))
 
 #таблиця частот символів алфавіту
 print(pd.DataFrame(freq, index = alphabetS_list))
+
+#переходимо до обрахунку кількостей та частот біграм
+freqBigram=[[0 for j in range(32)] for i in range(32)]
+countBigram=[[0 for j in range(32)] for i in range(32)]
+
+#для цього потрібно зчитати вже виправлений файл (без великих літер та спецсимволів)
+file = open("text2.txt", "r", encoding="utf8")
+text=file.read()
+file.close()
+
+#власне підраховуємо та складаємо таблицю з кількостями кожної з біграм
+s=0
+for i in range(len(text)):
+    find1 = alphabetS.find(text[i])
+    if i+1<len(text):
+        find2 = alphabetS.find(text[i+1])
+        countBigram[find1][find2]+=1
+        s+=1
+        
+#та таблицю частот біграм
+for i in range(32):
+    for j in range(32):
+        freqBigram[i][j]=countBigram[i][j]/s
+        
+#таблиця кількостей біграм
+print(pd.DataFrame(countBigram, columns = alphabetS_list, index = alphabetS_list))
+
+#таблиця частот біграм
+print(pd.DataFrame(freqBigram, columns = alphabetS_list, index = alphabetS_list))
