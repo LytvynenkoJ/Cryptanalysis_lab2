@@ -70,3 +70,18 @@ print(pd.DataFrame(countBigram, columns = alphabetS_list, index = alphabetS_list
 
 #таблиця частот біграм
 print(pd.DataFrame(freqBigram, columns = alphabetS_list, index = alphabetS_list))
+
+#ентропія на символ джерела (l=1)
+entropy=0
+for i in range(32):
+    entropy-=freq[i]*math.log2(freq[i])
+print("entropy (l=1) :         "+str(entropy))
+
+#ентропія на символ джерела (l=2)
+entropyBigram=0
+for i in range(32):
+    for j in range(32):
+        if freqBigram[i][j]!=0:
+            entropyBigram-=freqBigram[i][j]*math.log2(freqBigram[i][j])
+entropyBigram/=2
+print("entropy (l=2) :         "+str(entropyBigram))
