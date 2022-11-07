@@ -54,6 +54,13 @@ def frequencies(text):
             freqBigram[i][j]=countBigram[i][j]/s
     return coun, freq, countBigram, freqBigram
 
+#щоб далі було простіше присвоюємо результатам нормальні імена
+f = frequencies(text)
+coun=f[0]
+freq=f[1]
+countBigram=f[2]
+freqBigram=f[3]
+
 #таблиця кількостей символів алфавіту
 print(pd.DataFrame(coun, index = alphabetS_list))
 
