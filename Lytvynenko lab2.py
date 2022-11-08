@@ -109,3 +109,10 @@ for i in range(32):
             indexBigram+=countBigram[i][j]*(countBigram[i][j]-1)
 indexBigram/=len(text)*(len(text)-1)
 print("index (l=2) :         "+str(indexBigram))
+
+#розбиття тексту на частини
+def split(L,N):
+    splitedText=[]
+    for i in range(N):
+        splitedText.append(text[i*L: (i+1)*L])            
+    return splitedText
