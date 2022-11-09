@@ -116,3 +116,17 @@ def split(L,N):
     for i in range(N):
         splitedText.append(text[i*L: (i+1)*L])            
     return splitedText
+
+#перше спотворення тексту(шифр Віженера з випадковим ключем довжини r)
+def damage1(text, r):
+    key=[random.randint(0,32) for i in range(r)]
+    damagedText=[]
+    n=len(text)
+    l=len(text[0])
+    for i in range(n):
+        dT=""
+        for j in range(l):
+            temp = (alphabetS.find(text[i][j])+key[j%r])%32
+            dT+=alphabetS[temp]
+        damagedText.append(dT)
+    return damagedText
