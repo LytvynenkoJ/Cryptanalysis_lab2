@@ -130,3 +130,12 @@ def damage1(text, r):
             dT+=alphabetS[temp]
         damagedText.append(dT)
     return damagedText
+
+#алгоритм Евкліда
+def euclid(a, b):
+    if a == 0 :
+        return b,0,1
+    r,u,v = euclid(b%a, a)
+    x = v - (b//a) * u
+    y = u
+    return r,x,y
