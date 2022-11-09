@@ -205,3 +205,35 @@ for i in range(32):
             A2.append(a2)
             AFreqs[1]+=freqBigram[i][j]
 A.append(A2)
+
+#для критерію заборонених l-грам необхідні обрахунки:
+#   -кількість входжень заборонених l-грам у тексті (для критеріїв 1.0 та 1.1)
+#   -частоти заборонених l-грам (для критерію 1.2)
+#   -сума частот заборонених l-грам (для критерію 1.3)
+def CountForCriteria1(damaged_text, typ):
+    N=len(damaged_text)
+    result=[]
+    counts=[]
+    freqs=[]
+    freqSum=[]
+    if typ==1:
+        for i in range(N):
+            x=0
+            for j in range(len(A[0])):
+                if damaged_text[i].count(A[0][j])>0:
+                    x += damaged_text[i].count(A[0][j])
+                counts.append(damaged_text[i].count(A[0][j]))
+                freqs.append(counts[-1]/len(damaged_text[i]))
+            result.append(x)
+            freqSum.append(x/len(damaged_text[i]))
+    if typ==2:
+        for i in range(N):
+            x=0
+            for j in range(len(A[1])):
+                if damaged_text[i].count(A[1][j])>0:
+                    x += damaged_text[i].count(A[1][j])
+                counts.append(damaged_text[i].count(A[1][j]))
+                freqs.append(counts[-1]/(len(damaged_text[i])-1))
+            result.append(x)
+            freqSum.append(x/(len(damaged_text[i])-1))
+    return result, counts, freqs, freqSum
