@@ -182,3 +182,26 @@ def damage4(L,N):
             s1=temp
         damagedText.append(dT)
     return damagedText
+
+#для критерію заборонених l-грам відповідно потрібно скласти список цих заборонених l-грам
+#   список для літер (одразу ж підраховуємо суму частот заборонених l-грам)
+A=[]
+AFreqs=[0,0]
+a1=[]
+for i in range(32):
+    if freq[i]<0.005:
+        a1.append(alphabetS[i])
+        AFreqs[0]+=freq[i]
+A.append(a1)
+
+#   та список для біграм (також одразу підраховуємо суму частот заборонених l-грам)
+A2=[]
+for i in range(32):
+    for j in range(32):
+        a2=""
+        if freqBigram[i][j]==0:
+            a2+=alphabetS[i]
+            a2+=alphabetS[j]
+            A2.append(a2)
+            AFreqs[1]+=freqBigram[i][j]
+A.append(A2)
