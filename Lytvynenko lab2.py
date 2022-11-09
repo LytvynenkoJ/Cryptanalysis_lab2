@@ -237,3 +237,13 @@ def CountForCriteria1(damaged_text, typ):
             result.append(x)
             freqSum.append(x/(len(damaged_text[i])-1))
     return result, counts, freqs, freqSum
+
+#критерії 1.0, 1.1 та 1.3 загалом мають однаковий вигляд тому об'єднуємо їх в одну функцію
+def criteria1013(cfc, l):
+    result=[]
+    for i in range(len(cfc)):
+        if cfc[i]>l:
+            result.append(1)
+        else:
+            result. append(0)
+    return result
