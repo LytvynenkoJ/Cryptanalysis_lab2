@@ -167,3 +167,18 @@ def damage3(L, N):
             dT+=alphabetS[temp]
         damagedText.append(dT)
     return damagedText
+
+#четвертий варіант спотворення тексту (рекурента)
+def damage4(L,N):
+    damagedText=[]
+    s0=random.randint(0,31)
+    s1=random.randint(0,31)
+    for i in range(N):
+        dT=""
+        for j in range(L):
+            temp = (s0+s1)%32
+            dT+=alphabetS[temp]
+            s0=s1
+            s1=temp
+        damagedText.append(dT)
+    return damagedText
