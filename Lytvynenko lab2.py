@@ -139,3 +139,20 @@ def euclid(a, b):
     x = v - (b//a) * u
     y = u
     return r,x,y
+
+#друге спотворення тексту (шифр афiнної та афiнної бiграмної пiдстановки з випадковими ключами)
+def damage2(text,l):
+    damagedText=[]
+    gcd=2
+    a=0
+    while gcd>1:
+        a=random.randint(1,32**l-1)
+        gcd=euclid(a,32**l)[0]
+    b=random.randint(1,32**l-1)
+    for i in range(len(text)):
+        dT=""
+        for j in range(len(text[0])):
+            temp = (a*alphabetS.find(text[i][j])+b)%(32**l)
+            dT+=alphabetS[temp]
+        damagedText.append(dT)
+    return damagedText
