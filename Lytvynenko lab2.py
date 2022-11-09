@@ -247,3 +247,43 @@ def criteria1013(cfc, l):
         else:
             result. append(0)
     return result
+
+#критерій 1.2 вийшов трошки корявий, але можливо згодом вигадаю як зробити його красивим
+def criteria12(cfc, typ):
+    result=[]
+    if typ==1:
+        coun = 0
+        l=len(A[0])
+        for i in range(len(cfc)):
+            if i%l==0 and i!=0:
+                if coun>0:
+                    result.append(1)
+                else:
+                    result.append(0)
+                coun=0
+            fS = alphabetS.find(A[0][i%l])
+            if cfc[i]>freq[fS]:
+                coun+=1
+        if coun>0:
+            result.append(1)
+        else:
+            result.append(0)
+    if typ==2:
+        coun = 0
+        l=len(A[1])
+        for i in range(len(cfc)):
+            if i%l==0 and i!=0:
+                if coun>0:
+                    result.append(1)
+                else:
+                    result.append(0)
+                coun=0
+            f1 = alphabetS.find(A[1][i%l][0])
+            f2 = alphabetS.find(A[1][i%l][1])
+            if cfc[i]>freqBigram[f1][f2]:
+                coun+=1
+        if coun>0:
+            result.append(1)
+        else:
+            result.append(0)
+    return result
