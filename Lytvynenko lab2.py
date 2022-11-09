@@ -156,3 +156,14 @@ def damage2(text,l):
             dT+=alphabetS[temp]
         damagedText.append(dT)
     return damagedText
+
+#третій варіант спотворення тексту (рiвномiрно розподiлена послiдовнiсть символiв алфавіту)
+def damage3(L, N):
+    damagedText=[]
+    for i in range(N):
+        dT=""
+        for j in range(L):
+            temp = random.randint(0,31)
+            dT+=alphabetS[temp]
+        damagedText.append(dT)
+    return damagedText
