@@ -325,3 +325,24 @@ def mostFreq(freqA, freqB, j1, j2):
         r.append(string)
     result.append(r)
     return result
+
+#критерій 5.1
+def criteria51(text, level1, level2):
+    result1=[]
+    result2=[]
+    for i in range(len(text)):
+        r=[]
+        for j in range(len(mostF[0])):
+            r.append(text[i].count(mostF[0][j]))
+        if r.count(0)>=level1:
+            result1.append(1)
+        else:
+            result1.append(0)
+        r=[]
+        for j in range(len(mostF[1])):
+            r.append(text[i].count(mostF[1][j]))
+        if r.count(0)>=level2:
+            result2.append(1)
+        else:
+            result2.append(0)
+    return result1, result2
