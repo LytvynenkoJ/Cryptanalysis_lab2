@@ -304,3 +304,24 @@ def criteria30(text, level):
         else:
             result2.append(0)
     return result1, result2
+
+#підрахунок найчастіших символів алфавіту та найчастіших біграм
+def mostFreq(freqA, freqB, j1, j2):
+    result=[]
+    r=[]
+    for i in range(j1):
+        maxIndex=freqA.index(max(freqA))
+        r.append(alphabetS[maxIndex])
+        freqA[maxIndex]=0
+    result.append(r)
+    r=[]
+    for i in range(j2):
+        m=max([i for rows in freqB for i in rows])
+        maxIndex=[(i,j) for i in range(32) for j in range(32) if freqB[i][j]==m]
+        freqB[maxIndex[0][0]][maxIndex[0][1]]=0
+        string=""
+        string+=alphabetS[maxIndex[0][0]]
+        string+=alphabetS[maxIndex[0][1]]
+        r.append(string)
+    result.append(r)
+    return result
