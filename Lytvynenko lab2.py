@@ -346,3 +346,42 @@ def criteria51(text, level1, level2):
         else:
             result2.append(0)
     return result1, result2
+
+#будуємо дерево та знаходимо коди Хаффмана для кожного з символів алфавіту
+class Tree:
+    def __init__(self, ch, freq, left=None, right=None):
+        self.ch = ch
+        self.freq = freq
+        self.left  = left
+        self.right = right
+
+    def __str__(self):
+        return str(self.cargo)
+    
+    def __lt__(self, other):
+        return self.freq < other.freq
+
+def codingTree(node, sCode, huffCode):
+    #if node is None:
+        #return
+    if node.left is None and node.right is None:
+        if len(sCode)>0:
+            huffCode[node.ch]=sCode
+        else:
+            huffCode[node.ch]='1'
+        return
+    codingTree(node.left, sCode + '0', huffCode)
+    codingTree(node.right, sCode + '1', huffCode)
+    
+def huffman(text):
+    freq = frequencies(text)[0]
+    nodes=[Tree(alphabetS[i],freq[i]) for i in range(32) if freq[i]!=0]
+    heapq.heapify(nodes)
+    while(len(nodes)!=1):
+        leftNode = heapq.heappop(nodes)
+        rightNode = heapq.heappop(nodes)
+        newNodeFreq=leftNode.freq+rightNode.freq
+        heapq.heappush(nodes, Tree(None, newNodeFreq, leftNode, rightNode))
+    huffCode={}
+    codingTree(nodes[0], '', huffCode)
+    return huffCode
