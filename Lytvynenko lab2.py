@@ -385,3 +385,10 @@ def huffman(text):
     huffCode={}
     codingTree(nodes[0], '', huffCode)
     return huffCode
+
+#функція кодування тексту довільним кодом, який буде надіслано на вхід
+def textEncode(text, code):
+    encodedT=""
+    for i in text:
+        encodedT+=code[i]
+    return encodedT
