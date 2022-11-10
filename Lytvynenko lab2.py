@@ -414,3 +414,15 @@ def textEncode(text, code):
     for i in text:
         encodedT+=code[i]
     return encodedT
+
+#структурний критерій
+def structCriteria(text, coding):
+    result=[]
+    for i in range(len(text)):
+        temp = (len(text[i])*16)/len(textEncode(text[i], coding))
+        level = (len(splitedText[i])*16)/len(textEncode(splitedText[i], coding))
+        if abs(temp-level)>0.05:
+            result.append(1)
+        else:
+            result.append(0)
+    return result
