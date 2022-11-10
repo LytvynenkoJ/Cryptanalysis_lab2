@@ -386,6 +386,28 @@ def huffman(text):
     codingTree(nodes[0], '', huffCode)
     return huffCode
 
+#кодування в лоб
+def binary(num):
+    stringNum=""
+    while num>0:
+        if num%2==0:
+            stringNum=f'{0}{stringNum}'
+        else:
+            stringNum=f'{1}{stringNum}'
+        num=num//2
+    return stringNum
+
+def stupidCoding(text):
+    freq = frequencies(text)[0]
+    dictionary={alphabetS[i]: freq[i] for i in range(32)}
+    sortedKey=sorted(dictionary, key=dictionary.get, reverse=True)
+    codes={alphabetS[i]: '' for i in range(32)}
+    n=1
+    for i in sortedKey:
+        codes[i]=binary(n)
+        n+=1
+    return codes
+
 #функція кодування тексту довільним кодом, який буде надіслано на вхід
 def textEncode(text, code):
     encodedT=""
