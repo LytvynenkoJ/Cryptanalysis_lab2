@@ -287,3 +287,20 @@ def criteria12(cfc, typ):
         else:
             result.append(0)
     return result
+
+#критерій 3.0
+def criteria30(text, level):
+    result1=[]
+    result2=[]
+    for i in range(len(text)):
+        f = frequencies(text[i])
+        ent=entropy(f[1],f[3])
+        if abs(ent[0]-e[0])>level:
+            result1.append(1)
+        else:
+            result1.append(0)
+        if abs(ent[1]-e[1])>level:
+            result2.append(1)
+        else:
+            result2.append(0)
+    return result1, result2
