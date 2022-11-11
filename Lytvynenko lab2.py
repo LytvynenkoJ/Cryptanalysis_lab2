@@ -114,7 +114,7 @@ print("index (l=2) :         "+str(indexBigram))
 def split(L,N):
     splitedText=[]
     for i in range(N):
-        splitedText.append(text[i*L: (i+1)*L])            
+        splitedText.append(text[L*i//100: L*i//100+L])            
     return splitedText
 
 #перше спотворення тексту(шифр Віженера з випадковим ключем довжини r)
