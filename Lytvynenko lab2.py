@@ -426,3 +426,9 @@ def structCriteria(text, coding):
         else:
             result.append(0)
     return result
+
+#похибки першого та другого роду
+def alpha(cr):
+    return sum(cr)/len(cr)
+def beta(cr):
+    return 1-sum(cr)/len(cr)
