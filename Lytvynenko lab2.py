@@ -432,3 +432,98 @@ def alpha(cr):
     return sum(cr)/len(cr)
 def beta(cr):
     return 1-sum(cr)/len(cr)
+
+#тести для шифру Віженера
+for r in [1,5,10]:
+    print()
+    print(r)
+    for L in [10,100,1000,10000]:
+        N=10000
+        if L==10000:
+            N=1000
+        print("L = " + str(L)+ "        N = " + str(N))
+        splitedText=split(L,N)
+        damagedText=damage1(splitedText,r)
+        cfc1=CountForCriteria1(splitedText, 1)
+        cfc2=CountForCriteria1(damagedText, 1)
+        cfc3=CountForCriteria1(splitedText, 2)
+        cfc4=CountForCriteria1(damagedText, 2)
+        
+        #критерій 1.0
+        cr=criteria1013(cfc1[0],0)
+        print(" & 1.0  & " + str(alpha(cr)), end=' ')
+        cr=criteria1013(cfc2[0],0)
+        print("& " + str(beta(cr)), end=' ')
+        cr=criteria1013(cfc3[0],0)
+        print("& " + str(alpha(cr)), end=' ')
+        cr=criteria1013(cfc4[0],0)
+        print("& " + str(beta(cr)) + " \\\ ")
+        
+        
+        #критерій 1.1
+        cr=criteria1013(cfc1[0],(AFreqs[0]*L))
+        print(" & 1.1  & " + str(alpha(cr)), end=' ')
+        cr=criteria1013(cfc2[0],(AFreqs[0]*L))
+        print(" & " + str(beta(cr)), end=' ')
+        cr=criteria1013(cfc3[0],(AFreqs[1]*L))
+        print(" & " + str(alpha(cr)), end=' ')
+        cr=criteria1013(cfc4[0],(AFreqs[1]*L))
+        print(" & " + str(beta(cr)) +" \\\ ")
+        
+        
+        #критерій 1.2
+        cr=criteria12(cfc1[2],1)
+        print(" & 1.2  & " + str(alpha(cr)), end=' ')
+        cr=criteria12(cfc2[2],1)
+        print(" & " + str(beta(cr)), end=' ')
+        cr=criteria12(cfc3[2],2)
+        print(" & " + str(alpha(cr)), end=' ')
+        cr=criteria12(cfc4[2],2)
+        print(" & " + str(beta(cr)) +" \\\ ")
+        
+        
+        #критерій 1.3
+        cr=criteria1013(cfc1[3],AFreqs[0])
+        print(" & 1.3  & " + str(alpha(cr)), end=' ')
+        cr=criteria1013(cfc2[3],AFreqs[0])
+        print(" & " + str(beta(cr)), end=' ')
+        cr=criteria1013(cfc3[3],AFreqs[1])
+        print(" & " + str(alpha(cr)), end=' ')
+        cr=criteria1013(cfc4[3],AFreqs[1])
+        print(" & " + str(beta(cr)) +" \\\ ")
+        
+        
+        #критерій 3.0
+        cr1=criteria30(splitedText, 0.05)
+        print(" & 3.0  & " + str(alpha(cr1[0])), end=' ')
+        cr2=criteria30(damagedText, 0.05)
+        print(" & " + str(beta(cr2[0])), end=' ')
+        print(" & " + str(alpha(cr1[1])), end=' ')
+        print(" & " + str(beta(cr2[1])) +" \\\ ")
+        
+        
+        #критерій 5.1 подобрать границы!!!!!
+        mostF=mostFreq(freq, freqBigram, 3, 10)
+        cr1=criteria51(splitedText, 2, 5)
+        print(" & 5.1  & " + str(alpha(cr1[0])), end=' ')
+        cr2=criteria51(damagedText, 2, 5)
+        print(" & " + str(beta(cr2[0])), end=' ')
+        print(" & " + str(alpha(cr1[1])), end=' ')
+        print(" & " + str(beta(cr2[1])) +" \\\ ")
+        
+        
+        #структурний критерій 1
+        str1=structCriteria(splitedText, H, 1)
+        print(" & структурний(1)  & " + str(alpha(str1)), end=' ')
+        str2=structCriteria(damagedText, H, 1)
+        print(" & " + str(beta(str2)) + " & " + str(alpha(str1))+ " & " + str(beta(str2)) + " \\\ ")
+        
+        
+        #структурний критерій 2
+        str1=structCriteria(splitedText, H2, 2)
+        print(" & структурний(2)  & " + str(alpha(str1)), end=' ')
+        str2=structCriteria(damagedText, H2, 2)
+        print(" & " + str(beta(str2)) + " & " + str(alpha(str1))+ " & " + str(beta(str2)) + " \\\ \hline")
+        
+        print()
+        print()
