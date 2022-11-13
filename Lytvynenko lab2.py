@@ -446,6 +446,19 @@ def structCriteria(text, coding, level):
         else:
             result.append(0)
     return result
+ 
+#структурний критерій з використанням вбудованої бібліотеки zlib
+def structCriteria2(text, level):
+    result=[]
+    damagedText=damage3(len(text[0]),len(text))
+    for i in range(len(text)):
+        temp = (len(text[i]))/len(zlib.compress(text[i].encode('utf-8')))
+        compare = (len(damagedText[i]))/len(zlib.compress(damagedText[i].encode('utf-8')))
+        if (abs(temp-compare)<level):
+            result.append(1)
+        else:
+            result.append(0)
+    return result
 
 #похибки першого та другого роду
 def alpha(cr):
