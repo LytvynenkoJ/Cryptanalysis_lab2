@@ -2,6 +2,9 @@ import numpy as np
 import math
 import random
 import pandas as pd
+import heapq
+import copy
+import zlib
 
 #зчитуємо файл
 file = open("text.txt", "r", encoding="utf8")
@@ -111,10 +114,10 @@ indexBigram/=len(text)*(len(text)-1)
 print("index (l=2) :         "+str(indexBigram))
 
 #розбиття тексту на частини
-def split(L,N):
+def split(L,N,step=50):
     splitedText=[]
     for i in range(N):
-        splitedText.append(text[L*i//100: L*i//100+L])            
+        splitedText.append(text[step*i: step*i+L])
     return splitedText
 
 #перше спотворення тексту(шифр Віженера з випадковим ключем довжини r)
@@ -151,9 +154,16 @@ def damage2(text,l):
     b=random.randint(1,32**l-1)
     for i in range(len(text)):
         dT=""
-        for j in range(len(text[0])):
+        j=0
+        while j <len(text[0]):
             temp = (a*alphabetS.find(text[i][j])+b)%(32**l)
-            dT+=alphabetS[temp]
+            if l==1:
+                dT+=alphabetS[temp]
+                j+=1
+            if l==2:
+                dT+=alphabetS[temp//32]
+                dT+=alphabetS[temp%32]
+                j+=2
         damagedText.append(dT)
     return damagedText
 
@@ -175,11 +185,20 @@ def damage4(L,N):
     s1=random.randint(0,31)
     for i in range(N):
         dT=""
-        for j in range(L):
-            temp = (s0+s1)%32
-            dT+=alphabetS[temp]
-            s0=s1
-            s1=temp
+        j=0
+        while j<L:
+            temp = (s0+s1)%(32**l)
+            if l==1:
+                dT+=alphabetS[temp]
+                s0=s1
+                s1=temp
+                j+=1
+            if l==2:
+                dT+=alphabetS[temp//32]
+                dT+=alphabetS[temp%32]
+                s0=s1
+                s1=temp
+                j+=1
         damagedText.append(dT)
     return damagedText
 
@@ -309,16 +328,18 @@ def criteria30(text, level):
 def mostFreq(freqA, freqB, j1, j2):
     result=[]
     r=[]
+    f=copy.deepcopy(freqA)
     for i in range(j1):
-        maxIndex=freqA.index(max(freqA))
+        maxIndex=f.index(max(f))
         r.append(alphabetS[maxIndex])
-        freqA[maxIndex]=0
+        f[maxIndex]=0
     result.append(r)
     r=[]
+    f=copy.deepcopy(freqB)
     for i in range(j2):
-        m=max([i for rows in freqB for i in rows])
-        maxIndex=[(i,j) for i in range(32) for j in range(32) if freqB[i][j]==m]
-        freqB[maxIndex[0][0]][maxIndex[0][1]]=0
+        m=max([i for rows in f for i in rows])
+        maxIndex=[(i,j) for i in range(32) for j in range(32) if f[i][j]==m]
+        f[maxIndex[0][0]][maxIndex[0][1]]=0
         string=""
         string+=alphabetS[maxIndex[0][0]]
         string+=alphabetS[maxIndex[0][1]]
@@ -327,20 +348,20 @@ def mostFreq(freqA, freqB, j1, j2):
     return result
 
 #критерій 5.1
-def criteria51(text, level1, level2):
+def criteria51(text, level1, level2, mostFreq):
     result1=[]
     result2=[]
     for i in range(len(text)):
         r=[]
-        for j in range(len(mostF[0])):
-            r.append(text[i].count(mostF[0][j]))
+        for j in range(len(mostFreq[0])):
+            r.append(text[i].count(mostFreq[0][j]))
         if r.count(0)>=level1:
             result1.append(1)
         else:
             result1.append(0)
         r=[]
-        for j in range(len(mostF[1])):
-            r.append(text[i].count(mostF[1][j]))
+        for j in range(len(mostFreq[1])):
+            r.append(text[i].count(mostFreq[1][j]))
         if r.count(0)>=level2:
             result2.append(1)
         else:
@@ -362,8 +383,6 @@ class Tree:
         return self.freq < other.freq
 
 def codingTree(node, sCode, huffCode):
-    #if node is None:
-        #return
     if node.left is None and node.right is None:
         if len(sCode)>0:
             huffCode[node.ch]=sCode
@@ -416,12 +435,13 @@ def textEncode(text, code):
     return encodedT
 
 #структурний критерій
-def structCriteria(text, coding):
+def structCriteria(text, coding, level):
     result=[]
+    damagedText=damage3(len(text[0]),len(text))
     for i in range(len(text)):
         temp = (len(text[i])*16)/len(textEncode(text[i], coding))
-        level = (len(splitedText[i])*16)/len(textEncode(splitedText[i], coding))
-        if abs(temp-level)>0.05:
+        compare = (len(damagedText[i])*16)/len(textEncode(damagedText[i], coding))
+        if (abs(temp-compare)<level):
             result.append(1)
         else:
             result.append(0)
